@@ -31,7 +31,9 @@ class CourseController {
     // [POST] /courses/store
     store(req, res, next) {
         req.body.image = `https://img.youtube.com/vi/${req.body.videoId}/sddefault.jpg`
-        Course.create(req.body)
+        const course = new Course(req.body)
+        course
+            .save()
             .then(() => res.redirect('/me/stored/courses'))
             .catch(next)
     }
@@ -51,6 +53,7 @@ class CourseController {
 
     // [PUT] /courses/:id
     update(req, res, next) {
+        req.body.image = `https://img.youtube.com/vi/${req.body.videoId}/sddefault.jpg`
         Course.updateOne({ _id: req.params.id }, req.body)
             .then(() => res.redirect('/me/stored/courses'))
             .catch(next)
